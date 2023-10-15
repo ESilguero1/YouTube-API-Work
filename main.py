@@ -2,11 +2,16 @@ import operator
 import requests
 import json
 from apiclient.discovery import build
+
 api_key = 'AIzaSyCB2dMQCaUC-xfAd_Yqi78MHLjISniRz0o'
 youtube = build('youtube','v3',developerKey = api_key)
+
+#prompts user for the query and then calls the API
 keyWord = input('Enter your search query:  ')
 request = youtube.search().list(q=keyWord, part='snippet',type='channel', maxResults=20)
 res = request.execute()
+
+#parses through the json and saves each channel in a list
 channels = []
 for channel in res['items']:
     request = youtube.channels().list(part="snippet, statistics", id= channel['id']['channelId'])
@@ -15,8 +20,11 @@ for channel in res['items']:
                      'subs': int(response['items'][0]['statistics']['subscriberCount']),
                      'description': response['items'][0]['snippet']['description']})
 
+#sorts the channel list by the number of subscribers, from greatest to least
 output = sorted(channels, key = operator.itemgetter('subs'), reverse=True)
 
+
+#rudimentary formatting for output
 print("Channels related to: " + keyWord)
 print()
 print("Channel Name             |        Subscribers        |        Languages")
