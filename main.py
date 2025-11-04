@@ -3,8 +3,8 @@ import requests
 import json
 from apiclient.discovery import build
 
-api_key = 'AIzaSyCB2dMQCaUC-xfAd_Yqi78MHLjISniRz0o'
-youtube = build('youtube','v3',developerKey = api_key)
+API_KEY = 'YOUR_API_KEY'
+youtube = build('youtube','v3',developerKey = API_KEY)
 
 #prompts user for the query and then calls the API
 keyWord = input('Enter your search query:  ')
@@ -25,10 +25,8 @@ output = sorted(channels, key = operator.itemgetter('subs'), reverse=True)
 
 
 #rudimentary formatting for output
-print("Channels related to: " + keyWord)
-print()
-print("Channel Name             |        Subscribers        |        Languages")
-print()
+print("Channels related to: " + keyWord + "\n")
+print("Channel Name             |        Subscribers        |        Languages\n")
 
 for c in output:
     d = c['description']
